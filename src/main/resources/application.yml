@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:7000}
+  port: ${SERVER_PORT:7002}
 spring:
   config:
     import:
