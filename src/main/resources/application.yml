@@ -1,0 +1,42 @@
+server:
+  port: ${SERVER_PORT:7000}
+spring:
+  config:
+    import:
+      optional:file:./secrets-local.yml
+  rabbitmq:
+    host: ${MENSAGERIA_HOST}
+    port: ${MENSAGERIA_PORT}
+    username: ${MENSAGERIA_USERNAME}
+    password: ${MENSAGERIA_PASSWORD}
+  cloud:
+    stream:
+      function:
+        definition: operacaoEventConsumer
+      bindings:
+        operacaoEventConsumer-in-0:
+          destination: queue-remessa-valida-v1
+          group: group-remessa-valida
+  datasource:
+    driver-class-name: ${DATABASE_DRIVER_CLASSNAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    url: ${DATABASE_URL}
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: ${DATABASE_DDL_AUTO:none}
+    properties:
+      hibernate:
+        dialect: ${DATABASE_HIBERNATE_DIALECT}
+        default_schema: ${DATA_BASE_SCHEMA}
+
+
+
+
+
+
+
+
+
