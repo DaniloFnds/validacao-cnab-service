@@ -1,0 +1,16 @@
+<beanio xmlns="http://www.beanio.org/2012/03"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+    <stream name="cnab400RemessaPaulistav1" format="fixedlength" mode="read" >
+        <record name="cnab400RemessaPaulistaHeader" minOccurs="1" maxOccurs="1" minLength="400" maxLength="400"
+                class="br.com.dhan.geraroperacao.domain.Registro">
+
+
+            <field name="nome" literal="1" position="1" length="1" required="true" trim="true" ignore="true"/>
+        </record>
+
+    </stream>
+
+
+</beanio>

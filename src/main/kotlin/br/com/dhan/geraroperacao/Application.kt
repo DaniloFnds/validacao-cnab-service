@@ -1,15 +1,13 @@
 package br.com.dhan.geraroperacao
 
-import br.com.dhan.geraroperacao.application.ApiRelatorio
-import br.com.dhan.geraroperacao.application.RetornoRelatorio
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.FeignClient
 
 @SpringBootApplication
-class Application : ApplicationRunner {
+@FeignClient
+class Application
 
 fun main(args: Array<String>) {
     runApplication<Application>(*args)
