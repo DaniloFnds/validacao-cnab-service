@@ -1,0 +1,24 @@
+<beanio xmlns="http://www.beanio.org/2012/03"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
+
+    <stream name="cnab400Remessa" format="fixedlength" mode="read" >
+        <record name="cnab400RemessaHeader" minOccurs="1" maxOccurs="1" minLength="400" maxLength="400"
+                class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabHeader">
+            <field name="identificacaoArquivoRemessa" literal="1" position="1" length="1" required="true" trim="true" ignore="true"/>
+        </record>
+
+        <record name="cnab400RemessaDetail" minOccurs="0" maxOccurs="unbounded" minLength="400" maxLength="400"
+                class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabDetail">
+            <field name="cpfCnpjCedente" literal="1" position="1" length="1" required="true" trim="true" ignore="true"/>
+        </record>
+
+        <record name="cnab400RemessaTrailer" minOccurs="1" maxOccurs="1" minLength="400" maxLength="400"
+                class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabTrailer">
+            <field name="identificacaoArquivoRemessa" literal="1" position="1" length="1" required="true" trim="true" ignore="true"/>
+        </record>
+
+    </stream>
+
+
+</beanio>
