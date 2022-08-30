@@ -1,7 +1,7 @@
 package br.com.dhan.validacaocnab.application.validacao.service.impl.processamento
 
 import br.com.dhan.validacaocnab.application.registro.port.RegistroCnabEventPort
-import br.com.dhan.validacaocnab.application.validacao.model.ArquivoProcessado
+import br.com.dhan.validacaocnab.domain.registro.ArquivoCnab
 import br.com.dhan.validacaocnab.application.validacao.service.ProcessamentoValidacao
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverColetorDados
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverValidadores
@@ -26,7 +26,7 @@ class ProcessamentoValidacaoImpl(
     private val registroCnabEventPort: RegistroCnabEventPort
 ) : ProcessamentoValidacao {
 
-    override fun processar(layout: Layout, cnab: Cnab): ArquivoProcessado {
+    override fun processar(layout: Layout, cnab: Cnab): ArquivoCnab {
         return runBlocking(Dispatchers.Default) {
             val createReader = async { streamFactory.createReader(layout.stream, cnab.inputFile.reader(Charset.defaultCharset())) }
             val coletorDados = async { resolverColetorDados.resolve(layout).coletar() }
@@ -50,7 +50,7 @@ class ProcessamentoValidacaoImpl(
                 launch { registroCnabEventPort.create(registro) }
             }
 
-            ArquivoProcessado(
+            ArquivoCnab(
                 idArquivo = cnab.idArquivo,
                 idFundo = cnab.idFundo,
                 nome = cnab.nome,

@@ -1,6 +1,6 @@
-package br.com.dhan.validacaocnab.application.validacao.model
+package br.com.dhan.validacaocnab.domain.registro
 
-data class ArquivoProcessado(
+data class ArquivoCnab(
     val idArquivo: String,
     val idFundo: String,
     val nome: String,

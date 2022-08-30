@@ -19,6 +19,8 @@ spring:
           group: group-remessa-valida
         registroCnabEventProducer-out-0:
           destination: ${MENSAGERIA_QUEUE_REGISTRO_CNAB_CRIACAO}
+        arquivoCnabEventProducer-out-0:
+          destination: ${MENSAGERIA_QUEUE_ARQUIVO_CNAB_CRIACAO}
   datasource:
     driver-class-name: ${DATABASE_DRIVER_CLASSNAME}
     username: ${DATABASE_USERNAME}

@@ -1,5 +1,6 @@
 package br.com.dhan.validacaocnab.infra.adapters.registro.event
 
+import br.com.dhan.validacaocnab.infra.adapters.registro.event.publishers.RegistroCnabPublisher
 import br.com.dhan.validacaocnab.samples.RegistroCnabSample
 import io.mockk.every
 import io.mockk.just
