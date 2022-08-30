@@ -9,18 +9,22 @@ spring:
     port: ${MENSAGERIA_PORT}
     username: ${MENSAGERIA_USERNAME}
     password: ${MENSAGERIA_PASSWORD}
+
   cloud:
     stream:
+      rabbit:
+        default.exchangeType: fanout
       function:
-        definition: operacaoEventConsumer
+        definition: validacaoEventConsumer
       bindings:
-        operacaoEventConsumer-in-0:
-          destination: queue-remessa-valida-v1
-          group: group-remessa-valida
+        validacaoEventConsumer-in-0:
+          destination: ${MENSAGERIA_QUEUE_VALIDACAO_CNAB}
+          group: group-validacao-cnab
         registroCnabEventProducer-out-0:
           destination: ${MENSAGERIA_QUEUE_REGISTRO_CNAB_CRIACAO}
         arquivoCnabEventProducer-out-0:
           destination: ${MENSAGERIA_QUEUE_ARQUIVO_CNAB_CRIACAO}
+
   datasource:
     driver-class-name: ${DATABASE_DRIVER_CLASSNAME}
     username: ${DATABASE_USERNAME}

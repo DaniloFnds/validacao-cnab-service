@@ -1,6 +1,5 @@
 package br.com.dhan.validacaocnab.application.validacao
 
-import br.com.dhan.lib.commons.extensions.GenUUID
 import br.com.dhan.validacaocnab.application.cnab.DownloadCnabUseCaseHandler
 import br.com.dhan.validacaocnab.application.cnab.usecase.DownloadCnabUseCase
 import br.com.dhan.validacaocnab.application.cnab.usecase.toDomain
@@ -14,7 +13,9 @@ import br.com.dhan.validacaocnab.domain.registro.ArquivoCnab
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
+import org.springframework.stereotype.Service
 
+@Service
 class ValidacaoHandler(
     private val downloadCnabUseCaseHandler: DownloadCnabUseCaseHandler,
     private val layoutDiscoverHandler: LayoutDiscoverHandler,
