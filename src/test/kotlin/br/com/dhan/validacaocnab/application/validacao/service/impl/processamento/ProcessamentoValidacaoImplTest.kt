@@ -1,5 +1,6 @@
 package br.com.dhan.validacaocnab.application.validacao.service.impl.processamento
 
+import br.com.dhan.validacaocnab.application.registro.port.RegistroCnabEventPort
 import br.com.dhan.validacaocnab.application.validacao.service.ColetorDados
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverColetorDados
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverValidadores
@@ -49,11 +50,13 @@ internal class ProcessamentoValidacaoImplTest {
                 "mensagem"
             )
         )
+        val registroEventPort = mockk<RegistroCnabEventPort>()
 
         val processamentoValidacaoImpl = ProcessamentoValidacaoImpl(
             streamFactory,
             resolverColetorDados,
-            resolverValidadores
+            resolverValidadores,
+            registroEventPort
         )
 
         val arquivoProcessado = processamentoValidacaoImpl.processar(layout, cnab)

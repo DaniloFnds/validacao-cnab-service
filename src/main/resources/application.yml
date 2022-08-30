@@ -17,6 +17,8 @@ spring:
         operacaoEventConsumer-in-0:
           destination: queue-remessa-valida-v1
           group: group-remessa-valida
+        registroCnabEventProducer-out-0:
+          destination: ${MENSAGERIA_QUEUE_REGISTRO_CNAB_CRIACAO}
   datasource:
     driver-class-name: ${DATABASE_DRIVER_CLASSNAME}
     username: ${DATABASE_USERNAME}

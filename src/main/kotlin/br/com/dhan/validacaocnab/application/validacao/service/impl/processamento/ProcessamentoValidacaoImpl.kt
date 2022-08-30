@@ -1,5 +1,6 @@
 package br.com.dhan.validacaocnab.application.validacao.service.impl.processamento
 
+import br.com.dhan.validacaocnab.application.registro.port.RegistroCnabEventPort
 import br.com.dhan.validacaocnab.application.validacao.model.ArquivoProcessado
 import br.com.dhan.validacaocnab.application.validacao.service.ProcessamentoValidacao
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverColetorDados
@@ -10,6 +11,7 @@ import br.com.dhan.validacaocnab.domain.layout.Layout
 import br.com.dhan.validacaocnab.domain.registro.RegistroCnab
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.beanio.StreamFactory
 import org.springframework.stereotype.Service
@@ -20,7 +22,8 @@ import java.util.concurrent.atomic.AtomicInteger
 class ProcessamentoValidacaoImpl(
     private val streamFactory: StreamFactory,
     private val resolverColetorDados: ResolverColetorDados,
-    private val resolverValidadores: ResolverValidadores
+    private val resolverValidadores: ResolverValidadores,
+    private val registroCnabEventPort: RegistroCnabEventPort
 ) : ProcessamentoValidacao {
 
     override fun processar(layout: Layout, cnab: Cnab): ArquivoProcessado {
@@ -35,6 +38,7 @@ class ProcessamentoValidacaoImpl(
             while (true) {
                 val registro = createReader.await().read() as? RegistroCnab ?: break
                 registro.coletorDados = coletorDados.await()
+                registro.idArquivo = cnab.idArquivo
 
                 registrosValidados.addAll(resolverValidadores.resolverAndExecute(layout, registro))
                 atomicTotalRegistros.incrementAndGet()
@@ -43,7 +47,7 @@ class ProcessamentoValidacaoImpl(
                 } else {
                     atomicInvalido.incrementAndGet()
                 }
-                // enviar o registro
+                launch { registroCnabEventPort.create(registro) }
             }
 
             ArquivoProcessado(
