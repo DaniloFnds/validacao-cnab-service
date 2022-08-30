@@ -32,8 +32,8 @@ internal class ValidadoresCnab400HeaderTest {
         Assertions.assertThat(validado)
             .isNotEmpty
             .hasSize(1)
-            .extracting("campo", "condicaoInvalido")
-            .contains(Tuple("campo", true))
+            .extracting("campo")
+            .contains("campo")
 
         verify(exactly = 1) { validacaoHeader.validar(any()) }
     }
