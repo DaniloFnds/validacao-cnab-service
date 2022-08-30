@@ -1,8 +1,10 @@
 package br.com.dhan.validacaocnab.application.validacao.service.impl.processamento
 
+import br.com.dhan.validacaocnab.application.validacao.model.ArquivoProcessado
 import br.com.dhan.validacaocnab.application.validacao.service.ProcessamentoValidacao
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverColetorDados
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverValidadores
+import br.com.dhan.validacaocnab.application.validacao.service.impl.validador.model.RetornoValidacao
 import br.com.dhan.validacaocnab.domain.cnab.Cnab
 import br.com.dhan.validacaocnab.domain.layout.Layout
 import br.com.dhan.validacaocnab.domain.registro.RegistroCnab
@@ -21,29 +23,37 @@ class ProcessamentoValidacaoImpl(
     private val resolverValidadores: ResolverValidadores
 ) : ProcessamentoValidacao {
 
-    override fun processar(layout: Layout, cnab: Cnab) {
-        runCatching {
-            runBlocking(Dispatchers.Default) {
-                val createReader = async { streamFactory.createReader(layout.stream, cnab.inputFile.reader(Charset.defaultCharset())) }
-                val coletorDados = async { resolverColetorDados.resolve(layout).coletar() }
+    override fun processar(layout: Layout, cnab: Cnab): ArquivoProcessado {
+        return runBlocking(Dispatchers.Default) {
+            val createReader = async { streamFactory.createReader(layout.stream, cnab.inputFile.reader(Charset.defaultCharset())) }
+            val coletorDados = async { resolverColetorDados.resolve(layout).coletar() }
 
-                val atomicInvalido = AtomicInteger(0)
-                val atomicValido = AtomicInteger(0)
-                while (true) {
-                    val registro = createReader.await().read() as? RegistroCnab ?: break
-                    registro.coletorDados = coletorDados.await()
+            val atomicInvalido = AtomicInteger(0)
+            val atomicValido = AtomicInteger(0)
+            val atomicTotalRegistros = AtomicInteger(0)
+            val registrosValidados: MutableSet<RetornoValidacao> = mutableSetOf()
+            while (true) {
+                val registro = createReader.await().read() as? RegistroCnab ?: break
+                registro.coletorDados = coletorDados.await()
 
-                    val registrosValidados = resolverValidadores.resolverAndExecute(layout, registro)
-
-                    if (registrosValidados.isEmpty()) {
-                        atomicValido.incrementAndGet()
-                    } else {
-                        atomicInvalido.incrementAndGet()
-                    }
-
-                    // enviar o registro
+                registrosValidados.addAll(resolverValidadores.resolverAndExecute(layout, registro))
+                atomicTotalRegistros.incrementAndGet()
+                if (registrosValidados.isEmpty()) {
+                    atomicValido.incrementAndGet()
+                } else {
+                    atomicInvalido.incrementAndGet()
                 }
+                // enviar o registro
             }
-        }.onFailure { }.onSuccess { }
+
+            ArquivoProcessado(
+                idArquivo = cnab.idArquivo,
+                idFundo = cnab.idFundo,
+                nome = cnab.nome,
+                totalInvalidos = atomicInvalido.get(),
+                totalValidos = atomicValido.get(),
+                totalRegistros = atomicTotalRegistros.get()
+            )
+        }
     }
 }

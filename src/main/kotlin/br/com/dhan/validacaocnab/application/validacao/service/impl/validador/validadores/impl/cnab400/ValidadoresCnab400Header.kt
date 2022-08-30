@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service
 import kotlin.reflect.KClass
 
 @Service
-class ValidadoresCnab400Header : Validador<Header> {
-    private val listValidadores: List<ValidacaoExecuter<Header>> = listOf()
+class ValidadoresCnab400Header(
+    private val listValidadores: List<ValidacaoExecuter<Header>>
+) : Validador<Header> {
 
     override fun layout(): Set<LayoutPorCodigoEnum> {
         return setOf(LAYOUT_400)

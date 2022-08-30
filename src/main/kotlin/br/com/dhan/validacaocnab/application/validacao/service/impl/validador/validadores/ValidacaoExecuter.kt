@@ -8,6 +8,7 @@ abstract class ValidacaoExecuter<T : TipoRegistro> {
     fun validar(registro: T): RetornoValidacao? {
         if (condicaoInvalido(registro)) {
             return RetornoValidacao(
+                registro = registro,
                 campo = campo(registro),
                 mensagem = mensagemInvalido(registro)
             )
