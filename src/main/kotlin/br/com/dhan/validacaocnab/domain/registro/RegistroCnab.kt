@@ -4,11 +4,11 @@ import br.com.dhan.lib.commons.extensions.GenUUID
 import br.com.dhan.validacaocnab.application.validacao.service.impl.coletor.model.SaidaColetor
 
 sealed class RegistroCnab : TipoRegistro {
-    private val id: String = GenUUID.get()
+    var id: String = GenUUID.get()
     var idArquivo: String = ""
-    private val tipoRegistro: Int? = null
-    private val numeroSequencial: Int? = null
-    private val registro: String? = null
+    var tipoRegistro: Int? = null
+    var numeroSequencial: Int? = null
+    var registro: String? = null
     var coletorDados: SaidaColetor? = null
 }
 

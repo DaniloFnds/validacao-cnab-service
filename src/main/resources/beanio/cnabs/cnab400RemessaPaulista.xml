@@ -2,12 +2,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.beanio.org/2012/03 http://www.beanio.org/2012/03/mapping.xsd">
 
-    <import resource="classpath:/beanio/handlers.xml"/>
-    <import resource="classpath:/beanio/templates.xml"/>
+    <import resource="classpath:beanio/handlers.xml"/>
+    <import resource="classpath:beanio/templates.xml"/>
 
     <stream name="cnab400RemessaPaulista" format="fixedlength" mode="read" >
-        <record name="cnab400RemessaPaulistaHeader" minOccurs="1" maxOccurs="1" minLength="400" maxLength="400"
-                class="br.com.fromtis.fidc.domain.importacao.RegistroCnab400Header">
+        <record name="header" minOccurs="1" maxOccurs="1" minLength="400" maxLength="400"
+                class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabHeader">
 
             <include template="cnab400HeaderPadrao_v2"/>
 
@@ -24,8 +24,8 @@
             <field name="dataGravacao" position="94" length="6" format="ddMMyy" required="true" trim="true"/>
         </record>
 
-        <record name="cnab400RemessaPaulistaDetail" minOccurs="0" maxOccurs="unbounded" minLength="400" maxLength="400"
-                class="br.com.fromtis.fidc.domain.importacao.RegistroCnab400Detail">
+        <record name="detail" minOccurs="0" maxOccurs="unbounded" minLength="400" maxLength="400"
+                class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabDetail">
 
             <include template="cnab400DetailPadrao_v2"/>
 
@@ -62,7 +62,7 @@
         </record>
 
         <record name="cnab400RemessaPaulistaTrailer" minOccurs="1" maxOccurs="1" minLength="400" maxLength="400"
-                class="br.com.fromtis.fidc.domain.importacao.RegistroCnab400Trailer">
+                class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabTrailer">
 
             <include template="cnab400TrailerPadrao_v2"/>
         </record>

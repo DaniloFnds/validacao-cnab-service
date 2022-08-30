@@ -1,13 +1,13 @@
 package br.com.dhan.validacaocnab.application.validacao.service.impl.processamento
 
 import br.com.dhan.validacaocnab.application.registro.port.RegistroCnabEventPort
-import br.com.dhan.validacaocnab.domain.registro.ArquivoCnab
 import br.com.dhan.validacaocnab.application.validacao.service.ProcessamentoValidacao
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverColetorDados
 import br.com.dhan.validacaocnab.application.validacao.service.ResolverValidadores
 import br.com.dhan.validacaocnab.application.validacao.service.impl.validador.model.RetornoValidacao
 import br.com.dhan.validacaocnab.domain.cnab.Cnab
 import br.com.dhan.validacaocnab.domain.layout.Layout
+import br.com.dhan.validacaocnab.domain.registro.ArquivoCnab
 import br.com.dhan.validacaocnab.domain.registro.RegistroCnab
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

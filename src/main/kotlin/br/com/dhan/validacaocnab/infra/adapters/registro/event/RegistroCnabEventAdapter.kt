@@ -48,6 +48,7 @@ private fun RegistroCnab.toEvent() = BaseEvent.create(
         is RegistroCnabDetail -> this.toEvent()
         is RegistroCnabHeader -> this.toEvent()
         is RegistroCnabTrailer -> this.toEvent()
+        else -> throw IllegalArgumentException()
     }
 )
 
