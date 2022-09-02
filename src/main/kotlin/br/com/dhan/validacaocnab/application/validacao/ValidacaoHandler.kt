@@ -14,6 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
+import kotlin.system.measureTimeMillis
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
 @Service
 class ValidacaoHandler(
@@ -23,16 +26,21 @@ class ValidacaoHandler(
     private val arquivoCnabCreateUseCaseHandler: ArquivoCnabCreateUseCaseHandler
 ) {
 
-    fun handler(validacaoCreateUseCase: ValidacaoCreateUseCase) = runBlocking(Dispatchers.Default) {
-        runCatching {
-            val cnab = async { downloadCnabUseCaseHandler.handle(validacaoCreateUseCase.buildDownloadCnab()) }
-            val layout = async { layoutDiscoverHandler.handler(validacaoCreateUseCase.buildLayoutRetrieve()) }
-            val arquivoProcessado = async {
-                processamentoValidacao.processar(layout.await(), cnab.await().toDomain())
-            }
+    @OptIn(ExperimentalTime::class)
+    fun handler(validacaoCreateUseCase: ValidacaoCreateUseCase) = measureTime {
+        runBlocking(Dispatchers.Default) {
+            runCatching {
+                val cnab = async { downloadCnabUseCaseHandler.handle(validacaoCreateUseCase.buildDownloadCnab()) }
+                val layout = async { layoutDiscoverHandler.handler(validacaoCreateUseCase.buildLayoutRetrieve()) }
+                val arquivoProcessado = async {
+                    processamentoValidacao.processar(layout.await(), cnab.await().toDomain())
+                }
 
-            arquivoCnabCreateUseCaseHandler.handler(arquivoProcessado.await().toCreateUseCase())
+                arquivoCnabCreateUseCaseHandler.handler(arquivoProcessado.await().toCreateUseCase())
+            }
         }
+    }.also {
+        println("ValidacaoHandler.handler: ${it.inWholeSeconds}")
     }
 }
 

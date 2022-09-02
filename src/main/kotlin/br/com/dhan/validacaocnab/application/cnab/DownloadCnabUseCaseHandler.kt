@@ -16,7 +16,7 @@ class DownloadCnabUseCaseHandler {
             downloadCnabUseCase.idArquivo,
             downloadCnabUseCase.idFundo,
             downloadCnabUseCase.nome,
-            FileInputStream(File("C:/160817131139_TESTE.REM"))
+            FileInputStream(File("C:/20210602_112329_20482021060003.txt"))
         )
     }
 }

@@ -26,7 +26,7 @@ class ProcessamentoValidacaoImpl(
     private val registroCnabEventPort: RegistroCnabEventPort
 ) : ProcessamentoValidacao {
 
-    override fun processar(layout: Layout, cnab: Cnab): ArquivoCnab {
+    override suspend fun processar(layout: Layout, cnab: Cnab): ArquivoCnab {
         return runBlocking(Dispatchers.Default) {
             val createReader = async { streamFactory.createReader(layout.stream, cnab.inputFile.reader(Charset.defaultCharset())) }
             val coletorDados = async { resolverColetorDados.resolve(layout).coletar() }

@@ -5,11 +5,11 @@
     <import resource="classpath:beanio/handlers.xml"/>
     <import resource="classpath:beanio/templates.xml"/>
 
-    <stream name="cnab400RemessaPaulista" format="fixedlength" mode="read" >
-        <record name="header" minOccurs="1" maxOccurs="1" minLength="400" maxLength="400"
+    <stream name="cnab400" format="fixedlength" mode="read" >
+        <record name="header" minOccurs="1" maxOccurs="1" minLength="444" maxLength="444"
                 class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabHeader">
 
-            <include template="cnab400HeaderPadrao_v2"/>
+            <include template="cnab444Header"/>
 
             <field name="identificacaoArquivoRemessa" literal="1" position="1" length="1" required="true" trim="true" ignore="true"/>
             <field name="literalRemessa" literal="REMESSA" position="2" length="7" required="true" trim="true" ignore="true"/>
@@ -19,15 +19,16 @@
             <field name="nomeConsultoria" position="46" length="30" trim="true" required="true"/>
             <field name="codigoBanco" position="76" length="3" format="##0" trim="true" required="true" regex="^[0-9]*[1-9][0-9]*$"/>
             <field name="nomeBanco" position="79" length="15" trim="true" required="true"/>
+            <field name="instituicaoPagadora" position="100" length="1" type="int" />
             <field name="identificacaoSistema" position="108" length="2" literal="MX" required="true" trim="true" ignore="true"/>
             <field name="numeroSequencialArquivo" position="110" length="7" format="######0" type="int" required="true" ignore="true" regex="^[0-9]*[1-9][0-9]*$"/>
             <field name="dataGravacao" position="94" length="6" format="ddMMyy" required="true" trim="true"/>
         </record>
 
-        <record name="detail" minOccurs="0" maxOccurs="unbounded" minLength="400" maxLength="400"
+        <record name="detail" minOccurs="0" maxOccurs="unbounded" minLength="444" maxLength="444"
                 class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabDetail">
 
-            <include template="cnab400DetailPadrao_v2"/>
+            <include template="cnab444Detail"/>
 
             <field name="coobrigacao" position="20" length="2" format="#0" type="int" required="true" regex="0[0-2]"/>
             <field name="caracteristicaEspecial" position="22" length="2" format="#0" type="int" required="false" ignore="true"/>
@@ -37,20 +38,20 @@
             <field name="riscoOperacao" position="34" length="2" required="false" ignore="true"/>
             <field name="seuNumero" position="37" length="25" trim="true"/>
             <field name="codigoBanco" position="62" length="3" trim="true"/>
-            <field name="valorPago" position="82" length="10" padding="0" justify="right"/>
+            <field name="valorPago" position="82" length="10" padding="0" justify="right" regex="^[+]?\d+?$"/>
             <field name="dataLiquidacao" position="94" length="6" format="ddMMyy" trim="true"/>
             <field name="codigoOcorrencia" position="108" length="2" required="true" trim="true"/>
             <field name="numeroContrato" position="110" length="10" trim="true" required="true"/>
             <field name="dataVencimento" position="120" length="6" format="ddMMyy" required="true" trim="true"/>
-            <field name="valorTitulo" position="126" length="13" padding="0" justify="right" trim="true" required="true" regex="^[0-9]*[1-9][0-9]*$"/>
+            <field name="valorTitulo" position="126" length="13" padding="0" justify="right" trim="true" required="true" regex="^[+]?\d+?$"/>
             <field name="codigoEspecie" position="147" length="2" required="true" trim="true"/>
-            <field name="dataEmissao" position="150" length="6" format="ddMMyy" required="true" trim="true"/>
+            <field name="dataEmissao" position="150" length="6" format="ddMMyy" required="true" trim="true" />
             <field name="codigoMotivoOcorrencia01" position="156" length="2" trim="true"/>
             <field name="codigoMotivoOcorrencia02" position="158" length="1" trim="true"/>
             <field name="tipoPessoa" position="159" length="2" required="true" regex="0[0-2]" trim="true"/>
             <field name="termoCessao" position="173" length="19" required="false"/>
-            <field name="valorPresenteParcela" position="192" length="13" padding="0" justify="right"/>
-            <field name="valorAbatimento" position="205" length="13" padding="0" justify="right"/>
+            <field name="valorPresenteParcela" position="192" length="13" padding="0" justify="right" regex="^[+]?\d+?$"/>
+            <field name="valorAbatimento" position="205" length="13" padding="0" justify="right" regex="^[+]?\d+?$"/>
             <field name="tipoInscricao" position="218" length="2" required="true" trim="true" ignore="true"/>
             <field name="cpfCnpjSacado" position="220" length="14" trim="true" required="true" minLength="1" maxLength="14" typeHandler="cpfCnpjAttTypeHandler"/>
             <field name="nomeSacado" position="234" length="40" required="true" minLength="1" maxLength="40" trim="true"/>
@@ -58,13 +59,14 @@
             <field name="numeroNotaFiscal" position="314" length="9" required="false"/>
             <field name="cepSacado" position="326" length="8" trim="true"/>
             <field name="nomeCedente" position="334" length="46" required="true" trim="true"/>
-            <field name="cpfCnpjCedente" position="380" length="14" required="true" trim="true" minLength="1" maxLength="14" />
+            <field name="cpfCnpjCedente" position="380" length="14" required="true" trim="true" minLength="1" maxLength="14"  />
+            <field name="chaveNfe" position="394" length="44"/>
         </record>
 
-        <record name="cnab400RemessaPaulistaTrailer" minOccurs="1" maxOccurs="1" minLength="400" maxLength="400"
+        <record name="cnab400RemessaPaulistaTrailer" minOccurs="1" maxOccurs="1" minLength="444" maxLength="444"
                 class="br.com.dhan.validacaocnab.domain.registro.RegistroCnabTrailer">
 
-            <include template="cnab400TrailerPadrao_v2"/>
+            <include template="cnab444Trailer"/>
         </record>
 
     </stream>

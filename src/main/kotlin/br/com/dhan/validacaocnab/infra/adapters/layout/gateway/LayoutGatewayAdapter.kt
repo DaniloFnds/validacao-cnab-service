@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class LayoutGatewayAdapter : LayoutPort {
     override fun retrieve(codigoLayout: String): Layout? {
-        return Layout("cnab400", "Cnab 400", "20")
+        return Layout("cnab400", "Cnab 400", "LAYOUT_400")
     }
 
 }

@@ -13,17 +13,23 @@ spring:
   cloud:
     stream:
       rabbit:
-        default.exchangeType: fanout
+        default:
+          producer:
+            exchange-type: fanout
+          consumer:
+            exchange-type: fanout
       function:
         definition: validacaoEventConsumer
       bindings:
         validacaoEventConsumer-in-0:
-          destination: ${MENSAGERIA_QUEUE_VALIDACAO_CNAB}
-          group: group-validacao-cnab
+          destination: ${MENSAGERIA_BROKER_VALIDACAO_CNAB}
+          group: ${MENSAGERIA_QUEUE_VALIDACAO_CNAB}
         registroCnabEventProducer-out-0:
-          destination: ${MENSAGERIA_QUEUE_REGISTRO_CNAB_CRIACAO}
+          producer:
+            exchangeType: fanout
+          destination: ${MENSAGERIA_BROKER_REGISTRO_CNAB_CRIACAO}
         arquivoCnabEventProducer-out-0:
-          destination: ${MENSAGERIA_QUEUE_ARQUIVO_CNAB_CRIACAO}
+          destination: ${MENSAGERIA_BROKER_ARQUIVO_CNAB_CRIACAO}
 
   datasource:
     driver-class-name: ${DATABASE_DRIVER_CLASSNAME}
@@ -39,7 +45,6 @@ spring:
       hibernate:
         dialect: ${DATABASE_HIBERNATE_DIALECT}
         default_schema: ${DATA_BASE_SCHEMA}
-
 
 
 
