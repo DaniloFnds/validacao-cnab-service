@@ -18,6 +18,10 @@ spring:
             exchange-type: fanout
           consumer:
             exchange-type: fanout
+        bindings:
+          registroCnabEventProducer-out-0:
+            producer:
+              exchange-type: fanout
       function:
         definition: validacaoEventConsumer
       bindings:
@@ -25,6 +29,7 @@ spring:
           destination: ${MENSAGERIA_BROKER_VALIDACAO_CNAB}
           group: ${MENSAGERIA_QUEUE_VALIDACAO_CNAB}
         registroCnabEventProducer-out-0:
+          content-type: application/json
           producer:
             exchangeType: fanout
           destination: ${MENSAGERIA_BROKER_REGISTRO_CNAB_CRIACAO}
@@ -45,8 +50,9 @@ spring:
       hibernate:
         dialect: ${DATABASE_HIBERNATE_DIALECT}
         default_schema: ${DATA_BASE_SCHEMA}
-
-
+logging:
+  level:
+    root: warn
 
 
 

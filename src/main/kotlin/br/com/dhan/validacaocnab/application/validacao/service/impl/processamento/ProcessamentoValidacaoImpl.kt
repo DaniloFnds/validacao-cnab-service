@@ -47,7 +47,7 @@ class ProcessamentoValidacaoImpl(
                 } else {
                     atomicInvalido.incrementAndGet()
                 }
-                launch { registroCnabEventPort.create(registro) }
+                async { registroCnabEventPort.create(registro) }
             }
 
             ArquivoCnab(

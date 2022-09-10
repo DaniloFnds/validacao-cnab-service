@@ -30,6 +30,7 @@ dependencies {
     implementation("br.com.dhan:commons-lib:1.0")
     implementation("org.beanio:beanio:2.1.0")
     implementation("org.modelmapper:modelmapper:3.1.0")
+    implementation("com.sksamuel.avro4k:avro4k-core:0.41.0")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.6.21")

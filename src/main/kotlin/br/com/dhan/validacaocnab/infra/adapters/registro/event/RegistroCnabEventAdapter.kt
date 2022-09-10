@@ -26,7 +26,7 @@ class RegistroCnabEventAdapter(
     override fun create(registro: RegistroCnab): String {
         val event = registro.toEvent()
         registroCnabPublisher.sendMessage(event)
-        return event.body.id
+        return event.id
     }
 
     override fun createArquivo(arquivoCnab: ArquivoCnab) {
@@ -45,14 +45,13 @@ private fun ArquivoCnab.toEvent() = BaseEvent.create(
     )
 )
 
-private fun RegistroCnab.toEvent() = BaseEvent.create(
+private fun RegistroCnab.toEvent() =
     when (this) {
         is RegistroCnabDetail -> this.toEvent()
         is RegistroCnabHeader -> this.toEvent()
         is RegistroCnabTrailer -> this.toEvent()
         else -> throw IllegalArgumentException()
     }
-)
 
 private fun RegistroCnabDetail.toEvent(): RegistroCnabEvent {
     val thisRegistro = this
