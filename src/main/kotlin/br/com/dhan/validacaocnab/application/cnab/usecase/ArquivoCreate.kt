@@ -1,4 +1,4 @@
-package br.com.dhan.validacaocnab.application.registro.usecase
+package br.com.dhan.validacaocnab.application.cnab.usecase
 
 data class ArquivoCreate(
     val id: String,

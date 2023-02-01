@@ -17,7 +17,7 @@ class DownloadCnabUseCaseHandler {
             downloadCnabUseCase.idFundo,
             downloadCnabUseCase.nome,
 //            FileInputStream(File("C:/20210602_112329_20482021060003 - Copia.txt"))
-            FileInputStream(File("C:/20210602_112329_20482021060003.txt"))
+            FileInputStream(File("C:/TESTE/${downloadCnabUseCase.nome}.txt"))
         )
     }
 }

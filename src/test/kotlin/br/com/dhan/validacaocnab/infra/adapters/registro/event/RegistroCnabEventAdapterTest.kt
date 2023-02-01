@@ -1,3 +1,4 @@
+/*
 package br.com.dhan.validacaocnab.infra.adapters.registro.event
 
 import br.com.dhan.validacaocnab.infra.adapters.registro.event.publishers.RegistroCnabPublisher
@@ -26,3 +27,4 @@ internal class RegistroCnabEventAdapterTest {
             .isNotNull
     }
 }
+*/

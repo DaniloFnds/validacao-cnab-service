@@ -19,8 +19,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.cloud:spring-cloud-starter-stream-rabbit:3.2.4")
+    implementation("org.springframework.cloud:spring-cloud-starter-stream-rabbit:4.0.1")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -30,7 +31,10 @@ dependencies {
     implementation("br.com.dhan:commons-lib:1.0")
     implementation("org.beanio:beanio:2.1.0")
     implementation("org.modelmapper:modelmapper:3.1.0")
-    implementation("com.sksamuel.avro4k:avro4k-core:0.41.0")
+    implementation("io.github.openfeign:feign-micrometer:11.9.1")
+    implementation("io.micrometer:micrometer-registry-prometheus:1.9.3")
+    compileOnly("org.apache.avro:avro:1.11.1")
+    compileOnly("com.sksamuel.avro4k:avro4k-core:0.41.0")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
@@ -44,6 +48,12 @@ dependencyManagement {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
 }
+
+/*configurations {
+    all {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+    }
+}*/
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
@@ -83,4 +93,10 @@ tasks.jacocoTestCoverageVerification {
             }
         }
     }
+}
+
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.Embeddable")
+    annotation("javax.persistence.MappedSuperclass")
 }

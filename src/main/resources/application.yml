@@ -3,7 +3,7 @@ server:
 spring:
   config:
     import:
-      optional:file:./secrets-local.yml
+      ${SPRING_CONFIG_IMPORTS:classpath:dhan-config-actuator.yml}
   rabbitmq:
     host: ${MENSAGERIA_HOST}
     port: ${MENSAGERIA_PORT}
@@ -22,16 +22,19 @@ spring:
           registroCnabEventProducer-out-0:
             producer:
               exchange-type: fanout
+              batch-size: 300
+          validacaoEventConsumer-in-0:
+            consumer:
+              exchange-type: fanout
       function:
         definition: validacaoEventConsumer
       bindings:
         validacaoEventConsumer-in-0:
+          content-type: application/json
           destination: ${MENSAGERIA_BROKER_VALIDACAO_CNAB}
           group: ${MENSAGERIA_QUEUE_VALIDACAO_CNAB}
         registroCnabEventProducer-out-0:
           content-type: application/json
-          producer:
-            exchangeType: fanout
           destination: ${MENSAGERIA_BROKER_REGISTRO_CNAB_CRIACAO}
         arquivoCnabEventProducer-out-0:
           destination: ${MENSAGERIA_BROKER_ARQUIVO_CNAB_CRIACAO}
@@ -41,18 +44,29 @@ spring:
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     url: ${DATABASE_URL}
+    hikari:
+      pool-name: ${spring.application.name}
+      connection-timeout: 20000
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      max-lifetime: 1800000
+      schema: ${DATA_BASE_SCHEMA}
   jpa:
     database: postgresql
-    show-sql: true
+    show-sql: ${DATABASE_SHOW_SQL:false}
     hibernate:
       ddl-auto: ${DATABASE_DDL_AUTO:none}
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     properties:
       hibernate:
         dialect: ${DATABASE_HIBERNATE_DIALECT}
         default_schema: ${DATA_BASE_SCHEMA}
+
 logging:
   level:
-    root: warn
+    root: ${LOGGING_ROOT_LEVEL:info}
 
 
 

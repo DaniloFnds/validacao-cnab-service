@@ -1,3 +1,4 @@
+/*
 package br.com.dhan.validacaocnab.infra.adapters.registro.event
 
 import br.com.dhan.lib.commons.events.BaseEvent
@@ -6,7 +7,7 @@ import br.com.dhan.schema.registro.RegistroCnabEvent
 import br.com.dhan.schema.registro.RegistroCnabEventDetail
 import br.com.dhan.schema.registro.RegistroCnabEventHeader
 import br.com.dhan.schema.registro.RegistroCnabEventTrailer
-import br.com.dhan.validacaocnab.application.registro.port.RegistroCnabEventPort
+import br.com.dhan.validacaocnab.application.registro.port.RegistroCnabPort
 import br.com.dhan.validacaocnab.domain.registro.ArquivoCnab
 import br.com.dhan.validacaocnab.domain.registro.RegistroCnab
 import br.com.dhan.validacaocnab.domain.registro.RegistroCnabDetail
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service
 class RegistroCnabEventAdapter(
     private val registroCnabPublisher: RegistroCnabPublisher,
     private val arquivoCnabPublisher: ArquivoCnabPublisher
-) : RegistroCnabEventPort {
+) : RegistroCnabPort {
 
     override fun create(registro: RegistroCnab): String {
         val event = registro.toEvent()
@@ -85,3 +86,4 @@ private fun RegistroCnabTrailer.toEvent(): RegistroCnabEvent {
         registro = thisRegistro.registro
     }
 }
+*/

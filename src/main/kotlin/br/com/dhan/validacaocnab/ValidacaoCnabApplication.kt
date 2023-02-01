@@ -4,10 +4,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.FeignClient
 
-@SpringBootApplication(scanBasePackages = ["br.com.dhan"])
+@SpringBootApplication
 @FeignClient
-class Application
+class ValidacaoCnabApplication
 
 fun main(args: Array<String>) {
-    runApplication<Application>(*args)
+    runApplication<ValidacaoCnabApplication>(*args)
 }

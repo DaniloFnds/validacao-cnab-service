@@ -11,5 +11,8 @@ data class CnabCreateUseCase(
 )
 
 fun CnabCreateUseCase.toDomain() = Cnab(
-    this.idArquivo, this.idFundo, this.nome, this.inputFile
+    this.idArquivo,
+    this.idFundo,
+    this.nome,
+    this.inputFile
 )

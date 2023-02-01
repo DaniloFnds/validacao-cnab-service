@@ -5,8 +5,8 @@ import br.com.dhan.validacaocnab.application.cnab.usecase.DownloadCnabUseCase
 import br.com.dhan.validacaocnab.application.cnab.usecase.toDomain
 import br.com.dhan.validacaocnab.application.layout.LayoutDiscoverHandler
 import br.com.dhan.validacaocnab.application.layout.usecase.LayoutRetrieveUseCase
-import br.com.dhan.validacaocnab.application.registro.ArquivoCnabCreateUseCaseHandler
-import br.com.dhan.validacaocnab.application.registro.usecase.ArquivoCreate
+import br.com.dhan.validacaocnab.application.cnab.ArquivoCnabCreateUseCaseHandler
+import br.com.dhan.validacaocnab.application.cnab.usecase.ArquivoCreate
 import br.com.dhan.validacaocnab.application.validacao.service.ProcessamentoValidacao
 import br.com.dhan.validacaocnab.application.validacao.usecase.ValidacaoCreateUseCase
 import br.com.dhan.validacaocnab.domain.registro.ArquivoCnab
@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
-import kotlin.system.measureTimeMillis
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 

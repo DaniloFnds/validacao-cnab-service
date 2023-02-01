@@ -1,6 +1,6 @@
-package br.com.dhan.validacaocnab.application.registro
+package br.com.dhan.validacaocnab.application.cnab
 
-import br.com.dhan.validacaocnab.application.registro.usecase.ArquivoCreate
+import br.com.dhan.validacaocnab.application.cnab.usecase.ArquivoCreate
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
