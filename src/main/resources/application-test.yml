@@ -1,8 +1,14 @@
 spring:
-  datasource:
-    driver-class-name: ${DATABASE_DRIVER_CLASSNAME}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
-    url: ${DATABASE_URL}
   flyway:
     enabled: false
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    properties:
+      hibernate:
+        dialect: ${DATABASE_HIBERNATE_DIALECT}
+        default_schema: ${DATA_BASE_SCHEMA}

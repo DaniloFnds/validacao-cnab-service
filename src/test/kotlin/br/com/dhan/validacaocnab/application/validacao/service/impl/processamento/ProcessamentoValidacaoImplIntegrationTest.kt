@@ -6,6 +6,9 @@ import br.com.dhan.validacaocnab.application.layout.usecase.LayoutRetrieveUseCas
 import br.com.dhan.validacaocnab.application.validacao.service.ProcessamentoValidacao
 import br.com.dhan.validacaocnab.domain.cnab.Cnab
 import br.com.dhan.validacaocnab.domain.cnab.Layout
+import br.com.dhan.validacaocnab.infra.adapters.registro.jpa.entity.RegistroCnabDetailEntity
+import br.com.dhan.validacaocnab.infra.adapters.registro.jpa.repository.RegistroCnabRepository
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -20,6 +23,9 @@ class ProcessamentoValidacaoImplIntegrationTest : IntegrationConfigurationTest()
     @Autowired
     private lateinit var processamentoValidacao: ProcessamentoValidacao
 
+    @Autowired
+    private lateinit var registroCnabRepository: RegistroCnabRepository
+
     @MockBean
     private lateinit var layoutDiscoverHandler: LayoutDiscoverHandler
 
@@ -29,8 +35,9 @@ class ProcessamentoValidacaoImplIntegrationTest : IntegrationConfigurationTest()
         val cnabStream = getFileFromResource("cnabs/CNAB_REMESSA_444_SUCESSO.txt")
 
         val cnab = Cnab(
-            documentNumberFundo = "",
-            name = "ARQUIVO (1).txt",
+            id = "1234TESTE",
+            documentNumberFundo = "86166849800",
+            name = "CNAB_REMESSA_444_SUCESSO.txt",
             file = InputStreamReader(cnabStream)
         )
 
@@ -41,10 +48,20 @@ class ProcessamentoValidacaoImplIntegrationTest : IntegrationConfigurationTest()
             )
         ).thenReturn(Layout("cnab444RemessaPaulista", "Cnab 444", "LAYOUT_444"))
 
-        val documentNumberFundo = processamentoValidacao.processar(
+        processamentoValidacao.processar(
             cnab
         )
 
-        println()
+        val listRegistrosCnab = registroCnabRepository.findAll()
+
+        Assertions.assertThat(listRegistrosCnab)
+            .hasSize(4)
+
+        with(listRegistrosCnab[1]) {
+            Assertions.assertThat(this)
+                .isInstanceOf(RegistroCnabDetailEntity::class.java)
+                .extracting("idCnab", "cepSacado")
+                .contains("1234TESTE", "93324880")
+        }
     }
 }

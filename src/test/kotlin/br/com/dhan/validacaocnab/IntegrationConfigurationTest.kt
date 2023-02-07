@@ -19,15 +19,16 @@ abstract class IntegrationConfigurationTest : BaseUtilTest() {
     companion object {
         @JvmStatic
         @Container
-        private val postgres = PostgreSQLContainer("postgres")
+        val postgres: PostgreSQLContainer<*> = PostgreSQLContainer("postgres")
             .withDatabaseName("validacao_cnab_service")
+            .withInitScript("scriptsSql/create-schema.sql")
 
         @DynamicPropertySource
         @JvmStatic
         fun registerPostgresProperties(registry: DynamicPropertyRegistry) {
-            registry.add("spring.datasource.url", postgres::getJdbcUrl)
-            registry.add("spring.datasource.username", postgres::getUsername)
-            registry.add("spring.datasource.password", postgres::getPassword)
+            registry.add("spring.datasource.url") { postgres.jdbcUrl }
+            registry.add("spring.datasource.username") { postgres.username }
+            registry.add("spring.datasource.password") { postgres.password }
         }
     }
 }
