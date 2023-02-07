@@ -1,6 +1,10 @@
 server:
   port: ${SERVER_PORT:7002}
+  error:
+    include-message: always
 spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
   config:
     import:
       ${SPRING_CONFIG_IMPORTS:classpath:dhan-config-actuator.yml}
@@ -26,6 +30,11 @@ spring:
           validacaoEventConsumer-in-0:
             consumer:
               exchange-type: fanout
+              durable-subscription: true
+              missing-queues-fatal: true
+              max-concurrency: 1
+              batch-size: 1
+              prefetch: 1
       function:
         definition: validacaoEventConsumer
       bindings:
@@ -34,7 +43,7 @@ spring:
           destination: ${MENSAGERIA_BROKER_VALIDACAO_CNAB}
           group: ${MENSAGERIA_QUEUE_VALIDACAO_CNAB}
         registroCnabEventProducer-out-0:
-          content-type: application/json
+          content-type: application/x-protobuf
           destination: ${MENSAGERIA_BROKER_REGISTRO_CNAB_CRIACAO}
         arquivoCnabEventProducer-out-0:
           destination: ${MENSAGERIA_BROKER_ARQUIVO_CNAB_CRIACAO}
@@ -63,11 +72,24 @@ spring:
       hibernate:
         dialect: ${DATABASE_HIBERNATE_DIALECT}
         default_schema: ${DATA_BASE_SCHEMA}
+    open-in-view: false
 
 logging:
   level:
     root: ${LOGGING_ROOT_LEVEL:info}
-
+feign:
+  client:
+    config:
+      default:
+        connect-timeout: 3000
+        read-timeout: 50000
+        logger-level: NONE
+        metrics:
+          enabled: true
+      layout-service:
+        url: ${LAYOUT_SERVICE_URL}
+        default-request-headers:
+          Authorization: ${LAYOUT_SERVICE_SECRET}
 
 
 

@@ -2,6 +2,7 @@ package br.com.dhan.validacaocnab.domain.registro
 
 import java.math.BigDecimal
 import java.time.LocalDate
+import javax.persistence.Column
 
 class RegistroCnabHeader : RegistroCnab(), Header {
     var identificacaoArquivoRemessa: String? = null
@@ -51,4 +52,15 @@ class RegistroCnabHeader : RegistroCnab(), Header {
     var valorRetencao: BigDecimal? = null
 
     var coobrigacaoHeader: String? = null
+    var bancoCedente: String? = null
+
+    var agenciaCedente: String? = null
+
+    var digitoAgenciaCedente: String? = null
+
+    var contaCedente: String? = null
+
+    var digitoContaCedente: String? = null
+
+    var tipoPagamento: String? = null
 }

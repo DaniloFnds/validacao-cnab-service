@@ -1,7 +1,7 @@
 package br.com.dhan.validacaocnab.application.layout.port
 
-import br.com.dhan.validacaocnab.domain.layout.Layout
+import br.com.dhan.validacaocnab.domain.cnab.Layout
 
 interface LayoutPort {
-    fun retrieve(codigoLayout: String): Layout?
+    fun retrieve(documentNumberFundo: String, lines: List<String>): Layout?
 }

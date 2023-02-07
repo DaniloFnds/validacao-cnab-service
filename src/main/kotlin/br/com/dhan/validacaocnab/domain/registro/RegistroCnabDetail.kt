@@ -81,4 +81,5 @@ class RegistroCnabDetail : RegistroCnab(), Detail {
     var bandeiraNsu: String? = null
     var adquirenciaNsu: String? = null
     var codigoEstabelecimento: String? = null
+    var caracteristicaEspecial: Int? = null
 }

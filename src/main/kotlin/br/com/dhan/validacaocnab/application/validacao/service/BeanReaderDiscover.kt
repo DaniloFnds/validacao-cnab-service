@@ -1,9 +1,9 @@
 package br.com.dhan.validacaocnab.application.validacao.service
 
-import br.com.dhan.validacaocnab.domain.layout.Layout
+import br.com.dhan.validacaocnab.domain.cnab.Layout
 import org.beanio.BeanReader
-import java.io.InputStream
+import java.io.Reader
 
 interface BeanReaderDiscover {
-    fun discover(layout: Layout, inputFile: InputStream): BeanReader
+    fun discover(layout: Layout, reader: Reader): BeanReader
 }

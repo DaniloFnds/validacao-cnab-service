@@ -1,15 +1,13 @@
 package br.com.dhan.validacaocnab.domain.registro
 
 import br.com.dhan.lib.commons.extensions.GenUUID
-import br.com.dhan.validacaocnab.application.validacao.service.impl.coletor.model.SaidaColetor
 
-sealed class RegistroCnab : TipoRegistro {
-    var id: String = GenUUID.get()
-    var idArquivo: String = ""
+sealed class RegistroCnab : Registro {
+    val id: String = GenUUID.get()
+    var idCnab: String? = null
     var tipoRegistro: Int? = null
     var numeroSequencial: Int? = null
     var registro: String? = null
-    var coletorDados: SaidaColetor? = null
 }
 
 sealed interface Validation

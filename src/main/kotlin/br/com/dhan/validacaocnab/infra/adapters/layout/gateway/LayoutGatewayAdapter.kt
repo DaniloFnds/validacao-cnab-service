@@ -1,13 +1,19 @@
 package br.com.dhan.validacaocnab.infra.adapters.layout.gateway
 
 import br.com.dhan.validacaocnab.application.layout.port.LayoutPort
-import br.com.dhan.validacaocnab.domain.layout.Layout
+import br.com.dhan.validacaocnab.domain.cnab.Layout
+import br.com.dhan.validacaocnab.infra.adapters.layout.gateway.dto.FindLayoutRequest
+import br.com.dhan.validacaocnab.infra.adapters.layout.gateway.dto.toLayout
+import br.com.dhan.validacaocnab.infra.adapters.layout.gateway.feign.LayoutGateway
 import org.springframework.stereotype.Service
 
 @Service
-class LayoutGatewayAdapter : LayoutPort {
-    override fun retrieve(codigoLayout: String): Layout? {
-        return Layout("cnab400", "Cnab 400", "LAYOUT_400")
-    }
+class LayoutGatewayAdapter(
+    private val layoutGateway: LayoutGateway
+) : LayoutPort {
 
+    // TODO colocar um retry
+    override fun retrieve(documentNumberFundo: String, lines: List<String>): Layout? =
+        layoutGateway.findLayout(FindLayoutRequest(documentNumberFundo, lines))
+            .toLayout()
 }

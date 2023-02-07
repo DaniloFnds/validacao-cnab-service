@@ -1,3 +1,3 @@
 package br.com.dhan.validacaocnab.commons.exceptions
 
-class StreamNotConfiguredException : RuntimeException()
+class StreamNotConfiguredException(message: String? = "") : RuntimeException(message)

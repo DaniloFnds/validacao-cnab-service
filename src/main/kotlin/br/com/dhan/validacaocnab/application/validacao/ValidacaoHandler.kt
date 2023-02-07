@@ -1,21 +1,14 @@
 package br.com.dhan.validacaocnab.application.validacao
 
+import br.com.dhan.validacaocnab.application.cnab.ArquivoCnabCreateUseCaseHandler
 import br.com.dhan.validacaocnab.application.cnab.DownloadCnabUseCaseHandler
 import br.com.dhan.validacaocnab.application.cnab.usecase.DownloadCnabUseCase
-import br.com.dhan.validacaocnab.application.cnab.usecase.toDomain
 import br.com.dhan.validacaocnab.application.layout.LayoutDiscoverHandler
-import br.com.dhan.validacaocnab.application.layout.usecase.LayoutRetrieveUseCase
-import br.com.dhan.validacaocnab.application.cnab.ArquivoCnabCreateUseCaseHandler
-import br.com.dhan.validacaocnab.application.cnab.usecase.ArquivoCreate
 import br.com.dhan.validacaocnab.application.validacao.service.ProcessamentoValidacao
-import br.com.dhan.validacaocnab.application.validacao.usecase.ValidacaoCreateUseCase
-import br.com.dhan.validacaocnab.domain.registro.ArquivoCnab
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import br.com.dhan.validacaocnab.application.validacao.usecase.ValidationCreateUseCase
+import br.com.dhan.validacaocnab.domain.cnab.Cnab
 import org.springframework.stereotype.Service
-import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
+import java.io.StringReader
 
 @Service
 class ValidacaoHandler(
@@ -25,39 +18,25 @@ class ValidacaoHandler(
     private val arquivoCnabCreateUseCaseHandler: ArquivoCnabCreateUseCaseHandler
 ) {
 
-    @OptIn(ExperimentalTime::class)
-    fun handler(validacaoCreateUseCase: ValidacaoCreateUseCase) = measureTime {
-        runBlocking(Dispatchers.Default) {
-            runCatching {
-                val cnab = async { downloadCnabUseCaseHandler.handle(validacaoCreateUseCase.buildDownloadCnab()) }
-                val layout = async { layoutDiscoverHandler.handler(validacaoCreateUseCase.buildLayoutRetrieve()) }
-                val arquivoProcessado = async {
-                    processamentoValidacao.processar(layout.await(), cnab.await().toDomain())
-                }
+    fun handler(validationCreateUseCase: ValidationCreateUseCase) =
+        runCatching {
+            val downloadedCnabStream = downloadCnabUseCaseHandler.handle(validationCreateUseCase.toDownloadCnab())
 
-                arquivoCnabCreateUseCaseHandler.handler(arquivoProcessado.await().toCreateUseCase())
-            }
+            val arquivoProcessado =
+                processamentoValidacao.processar(
+                    Cnab(
+                        documentNumberFundo = validationCreateUseCase.documentNumberFundo,
+                        name = validationCreateUseCase.fileName,
+                        file = StringReader("asd")
+                    )
+                )
+
+//            arquivoCnabCreateUseCaseHandler.handler(arquivoProcessado.toCreateUseCase())
         }
-    }.also {
-        println("ValidacaoHandler.handler: ${it.inWholeSeconds}")
-    }
 }
 
-private fun ArquivoCnab.toCreateUseCase() = ArquivoCreate(
-    id = this.idArquivo,
-    idFundo = this.idFundo,
-    nome = this.nome,
-    totalInvalidos = this.totalInvalidos,
-    totalValidos = this.totalValidos,
-    totalRegistros = this.totalRegistros
-)
-
-private fun ValidacaoCreateUseCase.buildDownloadCnab() = DownloadCnabUseCase(
-    this.idArquivo,
-    this.nomeArquivo,
-    this.idFundo
-)
-
-private fun ValidacaoCreateUseCase.buildLayoutRetrieve() = LayoutRetrieveUseCase(
-    this.idFundo
-)
+private fun ValidationCreateUseCase.toDownloadCnab() =
+    DownloadCnabUseCase(
+        this.bucket,
+        this.filePath
+    )

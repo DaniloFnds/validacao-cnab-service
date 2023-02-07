@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: ${DATABASE_DRIVER_CLASSNAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    url: ${DATABASE_URL}
+  flyway:
+    enabled: false

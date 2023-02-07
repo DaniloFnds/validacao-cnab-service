@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package registrocnab;
+
+option java_package = "br.com.dhan.proto.registrocnab";
+option java_outer_classname = "RegistroCnabMessageProto";
+
+import "google/protobuf/timestamp.proto";
+
+message ListRegistroCnabProto {
+ repeated RegistroCnabProto registroCnab = 1;
+}
+
+message RegistroCnabProto {
+  RegistroCnabDetailProto detail = 1;
+  RegistroCnabHeaderProto header = 2;
+}
+
+message RegistroCnabDetailProto {
+
+  string cpfCnpjCedente = 1;
+  string nomeCedente = 2;
+  int32 codigoCedente = 3;
+  google.protobuf.Timestamp dataNascimentoSacado = 4;
+  string seuNumero = 5;
+  int32 numeroParcela = 6;
+  string nossoNumero = 7;
+  float taxaJuros = 8;
+  string codigoOcorrencia = 9;
+  string numeroContrato = 10;
+
+}
+
+message RegistroCnabHeaderProto {
+  string identificacaoArquivoRemessa = 1;
+  string codigoConsultoria = 2;
+  string nomeConsultoria = 3;
+  string codigoBanco = 4;
+  string nomeBanco = 5;
+  google.protobuf.Timestamp dataGravacao = 6;
+}
+
+

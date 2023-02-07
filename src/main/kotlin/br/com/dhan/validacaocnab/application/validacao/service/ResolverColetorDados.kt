@@ -1,8 +1,8 @@
 package br.com.dhan.validacaocnab.application.validacao.service
 
 import br.com.dhan.validacaocnab.commons.exceptions.LayoutNotFoundException
-import br.com.dhan.validacaocnab.domain.layout.Layout
-import br.com.dhan.validacaocnab.domain.layout.layoutPorCodigo
+import br.com.dhan.validacaocnab.domain.cnab.Layout
+import br.com.dhan.validacaocnab.domain.cnab.layoutPorCodigo
 import org.springframework.stereotype.Service
 
 @Service

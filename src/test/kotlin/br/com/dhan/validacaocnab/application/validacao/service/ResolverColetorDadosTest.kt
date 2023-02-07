@@ -1,7 +1,7 @@
 package br.com.dhan.validacaocnab.application.validacao.service
 
 import br.com.dhan.validacaocnab.application.validacao.service.impl.coletor.model.SaidaColetor
-import br.com.dhan.validacaocnab.domain.layout.Layout
+import br.com.dhan.validacaocnab.domain.cnab.Layout
 import br.com.dhan.validacaocnab.domain.layout.LayoutPorCodigoEnum
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
@@ -68,7 +68,7 @@ internal class ResolverColetorDadosTest {
             listColetores
         )
 
-        Assertions.catchException {
+        Assertions.catchThrowable {
             resolverColetorDados.resolve(layout)
         }
     }

@@ -15,6 +15,7 @@ fun RegistroCnab.toEntity(): RegistroCnabEntity =
         is RegistroCnabDetail -> this.toEntity()
         is RegistroCnabHeader -> this.toEntity()
         is RegistroCnabTrailer -> this.toEntity()
+        else -> throw IllegalArgumentException("")
     }
 
 fun RegistroCnabDetail.toEntity(): RegistroCnabDetailEntity {

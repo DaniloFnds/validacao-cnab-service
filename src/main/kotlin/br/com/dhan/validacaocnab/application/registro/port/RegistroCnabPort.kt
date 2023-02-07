@@ -4,5 +4,5 @@ import br.com.dhan.validacaocnab.infra.adapters.registro.jpa.entity.RegistroCnab
 
 interface RegistroCnabPort {
 
-    fun create(registros: List<RegistroCnabEntity>): String
+    fun create(registros: List<RegistroCnabEntity>): List<RegistroCnabEntity>
 }

@@ -12,7 +12,7 @@ import javax.persistence.Table
 @DiscriminatorColumn
 @Table(name = "registro_cnab")
 abstract class RegistroCnabEntity : AbstractEntity() {
-    var idArquivo: String = ""
+    var idCnab: String = ""
     var tipoRegistro: Int? = null
     var numeroSequencial: Int? = null
 

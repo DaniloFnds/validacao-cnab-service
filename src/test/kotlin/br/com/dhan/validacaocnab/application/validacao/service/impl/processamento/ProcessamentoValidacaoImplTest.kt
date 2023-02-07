@@ -8,7 +8,7 @@ import br.com.dhan.validacaocnab.application.validacao.service.ResolverValidador
 import br.com.dhan.validacaocnab.application.validacao.service.impl.coletor.model.SaidaColetor
 import br.com.dhan.validacaocnab.application.validacao.service.impl.validador.model.RetornoValidacao
 import br.com.dhan.validacaocnab.domain.cnab.Cnab
-import br.com.dhan.validacaocnab.domain.layout.Layout
+import br.com.dhan.validacaocnab.domain.cnab.Layout
 import br.com.dhan.validacaocnab.samples.RegistroCnabSample
 import io.micrometer.core.instrument.MeterRegistry
 import io.mockk.coEvery
